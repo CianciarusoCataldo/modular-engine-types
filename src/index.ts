@@ -1,5 +1,3 @@
-import "symbol-observable";
-
 /**
  * @file modular-engine global types definitions
  *
@@ -8,9 +6,35 @@ import "symbol-observable";
  * @copyright Cataldo Cianciaruso 2022
  */
 
+import "symbol-observable";
+
 export interface Unsubscribe {
   (): void;
 }
+
+export interface MiddlewareAPI<
+  S = any,
+  D extends ModularEngineDispatch = ModularEngineDispatch
+> {
+  dispatch: D;
+  getState(): S;
+}
+
+export interface Middleware<
+  S = any,
+  D extends ModularEngineDispatch = ModularEngineDispatch
+> {
+  (api: MiddlewareAPI<S, D>): (
+    next: ModularEngineDispatch<ModularEngineGenericAction>
+  ) => (action: ModularEngineGenericAction) => ModularEngineGenericAction;
+}
+
+export type Observable<T> = {
+  subscribe: (observer: { next?(value: T): void }) => {
+    unsubscribe: Unsubscribe;
+  };
+  [Symbol.observable](): Observable<T>;
+};
 
 /**
  * modular-engine standard action
@@ -63,30 +87,13 @@ export interface ModularEngineDispatch<
   <T extends A>(action: T): T;
 }
 
-export interface MiddlewareAPI<
-  S = any,
-  D extends ModularEngineDispatch = ModularEngineDispatch
-> {
-  dispatch: D;
-  getState(): S;
-}
-
-export interface Middleware<
-  S = any,
-  D extends ModularEngineDispatch = ModularEngineDispatch
-> {
-  (api: MiddlewareAPI<S, D>): (
-    next: ModularEngineDispatch<ModularEngineGenericAction>
-  ) => (action: ModularEngineGenericAction) => ModularEngineGenericAction;
-}
-
-export type Observable<T> = {
-  subscribe: (observer: { next?(value: T): void }) => {
-    unsubscribe: Unsubscribe;
-  };
-  [Symbol.observable](): Observable<T>;
-};
-
+/**
+ * modular-engine standard store
+ *
+ * @author Cataldo Cianciaruso <https://github.com/CianciarusoCataldo>
+ *
+ * @copyright Cataldo Cianciaruso 2022
+ */
 export interface ModularEngineStore<
   S = any,
   A extends ModularEngineAction = ModularEngineAction

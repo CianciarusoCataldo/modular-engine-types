@@ -1,7 +1,5 @@
 import typescript from "rollup-plugin-typescript2";
 import del from "rollup-plugin-delete";
-// import { terser } from "rollup-plugin-terser";
-// import banner2 from "rollup-plugin-banner2";
 
 import pkg from "../package.json";
 
