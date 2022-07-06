@@ -153,10 +153,10 @@ export type ModularEngineGlobalState<
  *
  * @copyright Cataldo Cianciaruso 2022
  */
-export type ModularEngineEffect<T = any> = {
-  trigger: string;
-  effect: (state: T, action: ModularEngineAction) => T;
-};
+export type ModularEngineEffect<T = any> = (
+  state: T,
+  action: ModularEngineAction
+) => T;
 
 /**
  * modular-engine custom reducer cases
@@ -165,9 +165,9 @@ export type ModularEngineEffect<T = any> = {
  *
  * @copyright Cataldo Cianciaruso 2022
  */
-export type ModularEngineReducerCases<T = any> = Record<
+export type ModularEngineEffects<T = any> = Record<
   string,
-  ModularEngineEffect<T>["effect"]
+  ModularEngineEffect<T>
 >;
 
 /**
@@ -202,8 +202,8 @@ export type ModularEngineMiddleware = (
  * @copyright Cataldo Cianciaruso 2022
  */
 export type ModularEngineCustomConfig<T = any> = {
-  effects?: ModularEngineEffect<T>[];
-  state?: Record<string, string>;
+  effects?: ModularEngineEffects<T>;
+  state?: T;
 };
 
 /**
@@ -274,7 +274,7 @@ export type ModularEnginePlugin<
   ) => void;
 
   redux?: (config: ModularEngineConfig) => {
-    reducerCases: ModularEngineReducerCases<K>;
+    reducerCases: ModularEngineEffects<K>;
     reducer?: ModularEngineReducer;
     slice: string;
     initialState?: ModularEngineCustomState<K>;
