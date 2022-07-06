@@ -274,9 +274,9 @@ export type ModularEnginePlugin<
   ) => void;
 
   redux?: (config: ModularEngineConfig) => {
-    reducerCases: ModularEngineEffects<K>;
+    effects?: ModularEngineEffects<K>;
     reducer?: ModularEngineReducer;
-    slice: string;
+    slice?: string;
     initialState?: ModularEngineCustomState<K>;
   };
   postInit?: (
