@@ -12,7 +12,7 @@ export interface Unsubscribe {
   (): void;
 }
 
-export interface MiddlewareAPI<
+export interface ModularEngineMiddlewareAPI<
   S = any,
   D extends ModularEngineDispatch = ModularEngineDispatch
 > {
@@ -24,7 +24,7 @@ export interface Middleware<
   S = any,
   D extends ModularEngineDispatch = ModularEngineDispatch
 > {
-  (api: MiddlewareAPI<S, D>): (
+  (api: ModularEngineMiddlewareAPI<S, D>): (
     next: ModularEngineDispatch<ModularEngineGenericAction>
   ) => (action: ModularEngineGenericAction) => ModularEngineGenericAction;
 }
@@ -142,7 +142,7 @@ export type ModularEngineGlobalState<
   K extends Record<string, any> = {}
 > = ModularEngineCustomState<
   {
-    config: ConfigState<K>;
+    config: ModularEngineConfigState<K>;
   } & T
 >;
 
@@ -189,10 +189,13 @@ export type ModularEngineReducer<T extends Record<string, any> = {}> = (
  *
  * @copyright Cataldo Cianciaruso 2022
  */
-export type ModularEngineMiddleware = (
+export type ModularEngineMiddleware<
+  S = any,
+  D extends ModularEngineDispatch = ModularEngineDispatch
+> = (
   action: ModularEngineAction,
-  store: MiddlewareAPI
-) => void;
+  store: ModularEngineMiddlewareAPI
+) => any | void;
 
 /**
  * modular-engine custom reducer config
@@ -325,7 +328,7 @@ export type ModularEngineFormatter<T extends Record<string, any> = {}> = (
  *
  * @copyright Cataldo Cianciaruso 2022
  */
-export type ConfigState<T extends Record<string, any> = {}> =
+export type ModularEngineConfigState<T extends Record<string, any> = {}> =
   ModularEngineCustomState<
     Omit<ModularEngineConfig, "redux" | "features" | "plugins" | "debug"> & T
   >;

@@ -1,6 +1,6 @@
 {
   "name": "modular-engine-types",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "type definitions for the modular-engine ecosystem",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
